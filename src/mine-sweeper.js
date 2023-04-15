@@ -23,10 +23,54 @@ const { NotImplementedError } = require('../extensions/index.js');
  *  [1, 1, 1]
  * ]
  */
-function minesweeper(/* matrix */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
-}
+const minesweeper = matrix => {
+    let resultArray = [];
+
+    for (let i = 0; i < matrix.length; i++) {
+        let innerResultArray = [];
+
+        for (let i2 = 0; i2 < matrix[0].length; i2++) {
+            let numberOfMines = 0;
+
+            //север
+            if (matrix[i - 1] !== undefined && matrix[i - 1][i2] !== undefined) {
+                numberOfMines = matrix[i - 1][i2] ? numberOfMines + 1 : numberOfMines;
+            }
+            //северо-восток
+            if (matrix[i - 1] !== undefined && matrix[i - 1][i2 + 1] !== undefined) {
+                numberOfMines = matrix[i - 1][i2 + 1] ? numberOfMines + 1 : numberOfMines;
+            }
+            //восток
+            if (matrix[i] !== undefined && matrix[i][i2 + 1] !== undefined) {
+                numberOfMines = matrix[i][i2 + 1] ? numberOfMines + 1 : numberOfMines;
+            }
+            //юго-восток
+            if (matrix[i + 1] !== undefined && matrix[i + 1][i2 + 1] !== undefined) {
+                numberOfMines = matrix[i + 1][i2 + 1] ? numberOfMines + 1 : numberOfMines;
+            }
+            //юг
+            if (matrix[i + 1] !== undefined && matrix[i + 1][i2] !== undefined) {
+                numberOfMines = matrix[i + 1][i2] ? numberOfMines + 1 : numberOfMines;
+            }
+            //юго-запад
+            if (matrix[i + 1] !== undefined && matrix[i + 1][i2 - 1] !== undefined) {
+                numberOfMines = matrix[i + 1][i2 - 1] ? numberOfMines + 1 : numberOfMines;
+            }
+            //запад
+            if (matrix[i] !== undefined && matrix[i][i2 - 1] !== undefined) {
+                numberOfMines = matrix[i][i2 - 1] ? numberOfMines + 1 : numberOfMines;
+            }
+            //северо-запад
+            if (matrix[i - 1] !== undefined && matrix[i - 1][i2 - 1] !== undefined) {
+                numberOfMines = matrix[i - 1][i2 - 1] ? numberOfMines + 1 : numberOfMines;
+            }
+            innerResultArray.push(numberOfMines);
+        }
+        resultArray.push(innerResultArray);
+    }
+
+    return resultArray;
+};
 
 module.exports = {
   minesweeper
