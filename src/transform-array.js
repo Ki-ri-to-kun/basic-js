@@ -13,10 +13,45 @@ const { NotImplementedError } = require('../extensions/index.js');
  * transform([1, 2, 3, '--discard-prev', 4, 5]) => [1, 2, 4, 5]
  * 
  */
-function transform(/* arr */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
-}
+const transform = arr => {
+    let newArray = [];
+    if (Array.isArray(arr)) {
+        newArray = arr.slice();
+    } else {
+        throw new Error("'arr' parameter must be an instance of the Array!");
+    }
+
+    newArray.forEach((item, index) => {
+        if (item === '--discard-next') {
+            if (index + 1 in newArray) {
+                newArray.splice(index + 1, 1, undefined);
+            }
+            newArray.splice(index, 1, undefined);
+        }
+        if (item === '--discard-prev') {
+            if (index - 1 in newArray) {
+                newArray.splice(index - 1, 1, undefined);
+            }
+            newArray.splice(index, 1, undefined);
+        }
+        if (item === '--double-next') {
+            if (index + 1 in newArray) {
+                newArray.splice(index + 1, 0, newArray[index + 1]);
+            }
+            newArray.splice(index, 1, undefined);
+        }
+        if (item === '--double-prev') {
+            if (index - 1 in newArray) {
+                newArray.splice(index - 1, 0, newArray[index - 1]);
+                newArray.splice(index + 1, 1, undefined);
+            } else {
+                newArray.splice(index, 1, undefined);
+            }
+        }
+    });
+
+    return newArray.filter(item => item !== undefined);
+};
 
 module.exports = {
   transform
